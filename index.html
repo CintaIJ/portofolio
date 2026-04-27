@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cinta Indah Januarasty — Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg: #0a0a0f;
+      --surface: #111118;
+      --card: #16161f;
+      --accent: #e8c5f5;
+      --accent2: #f5a7d0;
+      --accent3: #a7c4f5;
+      --text: #f0eaf8;
+      --muted: #8a8499;
+      --border: rgba(232,197,245,0.12);
+      --glow: rgba(232,197,245,0.15);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed; inset: 0; z-index: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+      opacity: 0.4; pointer-events: none;
+    }
+
+    .blob-wrap {
+      position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none;
+    }
+    .blob {
+      position: absolute; border-radius: 50%; filter: blur(90px); opacity: 0.18;
+      animation: blobFloat 12s ease-in-out infinite;
+    }
+    .blob1 { width: 500px; height: 500px; background: #c084fc; top: -100px; left: -150px; animation-delay: 0s; }
+    .blob2 { width: 400px; height: 400px; background: #f472b6; bottom: -100px; right: -100px; animation-delay: 4s; }
+    .blob3 { width: 300px; height: 300px; background: #818cf8; top: 40%; left: 50%; animation-delay: 8s; }
+    @keyframes blobFloat {
+      0%, 100% { transform: translate(0,0) scale(1); }
+      33% { transform: translate(30px,-20px) scale(1.05); }
+      66% { transform: translate(-20px,30px) scale(0.95); }
+    }
+
+    .container { max-width: 900px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
+
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(10,10,15,0.75);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner {
+      max-width: 900px; margin: 0 auto; padding: 0 24px;
+      display: flex; align-items: center; justify-content: space-between; height: 56px;
+    }
+    .nav-logo {
+      font-family: 'Space Mono', monospace; font-size: 13px; color: var(--accent);
+      letter-spacing: 0.05em;
+    }
+    .nav-links { display: flex; gap: 28px; list-style: none; }
+    .nav-links a {
+      font-size: 13px; color: var(--muted); text-decoration: none;
+      letter-spacing: 0.04em; transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--accent); }
+
+    .hero {
+      min-height: 100svh; display: flex; align-items: center;
+      padding: 100px 0 60px;
+    }
+    .hero-inner { display: grid; gap: 0; }
+    .hero-tag {
+      font-family: 'Space Mono', monospace; font-size: 11px;
+      color: var(--accent2); letter-spacing: 0.15em; text-transform: uppercase;
+      margin-bottom: 20px;
+      opacity: 0; animation: fadeUp 0.7s 0.2s forwards;
+    }
+    .hero-name {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.8rem, 8vw, 5.5rem);
+      font-weight: 900; line-height: 1.05;
+      background: linear-gradient(135deg, #f0eaf8 0%, #c084fc 50%, #f472b6 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+      opacity: 0; animation: fadeUp 0.7s 0.4s forwards;
+    }
+    .hero-sub {
+      font-size: 1.1rem; color: var(--muted); margin-top: 18px; max-width: 500px;
+      line-height: 1.7;
+      opacity: 0; animation: fadeUp 0.7s 0.6s forwards;
+    }
+    .hero-sub em { color: var(--accent); font-style: normal; font-weight: 500; }
+    .hero-cta {
+      display: flex; gap: 14px; margin-top: 36px; flex-wrap: wrap;
+      opacity: 0; animation: fadeUp 0.7s 0.8s forwards;
+    }
+    .btn {
+      padding: 11px 24px; border-radius: 6px; font-size: 13px;
+      font-family: 'Space Mono', monospace; cursor: pointer;
+      text-decoration: none; transition: all 0.22s; display: inline-block;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, #c084fc, #f472b6);
+      color: #0a0a0f; border: none; font-weight: 700;
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(192,132,252,0.35); }
+    .btn-outline {
+      border: 1px solid var(--border); color: var(--text); background: transparent;
+    }
+    .btn-outline:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+
+    .hero-scroll {
+      margin-top: 60px; display: flex; align-items: center; gap: 12px;
+      font-family: 'Space Mono', monospace; font-size: 11px; color: var(--muted);
+      letter-spacing: 0.1em;
+      opacity: 0; animation: fadeUp 0.7s 1s forwards;
+    }
+    .scroll-line { width: 40px; height: 1px; background: var(--muted); }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    section { padding: 90px 0; }
+    .section-label {
+      font-family: 'Space Mono', monospace; font-size: 11px;
+      color: var(--accent2); letter-spacing: 0.18em; text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 700;
+      margin-bottom: 48px; line-height: 1.2;
+    }
+    .section-divider {
+      height: 1px; background: linear-gradient(90deg, var(--accent) 0%, transparent 100%);
+      margin-bottom: 60px; opacity: 0.3;
+    }
+
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start; }
+    .about-text p { color: var(--muted); line-height: 1.8; margin-bottom: 14px; font-size: 0.95rem; }
+    .about-text p strong { color: var(--text); }
+    .about-stats { display: grid; gap: 16px; }
+    .stat-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 12px; padding: 20px 22px;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .stat-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+    .stat-num {
+      font-family: 'Playfair Display', serif; font-size: 2.2rem;
+      font-weight: 900; color: var(--accent); line-height: 1;
+    }
+    .stat-label { font-size: 0.82rem; color: var(--muted); margin-top: 4px; }
+
+    @media (max-width: 640px) { .about-grid { grid-template-columns: 1fr; } }
+
+    .skills-grid { display: flex; flex-wrap: wrap; gap: 12px; }
+    .skill-tag {
+      padding: 8px 16px; border-radius: 100px;
+      border: 1px solid var(--border); font-size: 13px; color: var(--text);
+      background: var(--card); transition: all 0.2s; cursor: default;
+    }
+    .skill-tag:hover { border-color: var(--accent); color: var(--accent); background: rgba(232,197,245,0.06); }
+    .skill-tag .emoji { margin-right: 6px; }
+
+    .projects-grid { display: grid; gap: 20px; }
+    .project-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 14px; padding: 28px 30px;
+      display: grid; grid-template-columns: 1fr auto; gap: 16px;
+      align-items: start; transition: all 0.25s; position: relative; overflow: hidden;
+    }
+    .project-card::before {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(192,132,252,0.04), transparent);
+      opacity: 0; transition: opacity 0.3s;
+    }
+    .project-card:hover::before { opacity: 1; }
+    .project-card:hover { border-color: rgba(232,197,245,0.3); transform: translateY(-3px); box-shadow: 0 12px 40px rgba(0,0,0,0.3); }
+    .project-type {
+      font-family: 'Space Mono', monospace; font-size: 10px;
+      letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent2);
+      margin-bottom: 8px;
+    }
+    .project-title {
+      font-family: 'Playfair Display', serif; font-size: 1.25rem;
+      font-weight: 700; margin-bottom: 10px; color: var(--text);
+    }
+    .project-desc { font-size: 0.88rem; color: var(--muted); line-height: 1.7; }
+    .project-tags { display: flex; gap: 8px; margin-top: 14px; flex-wrap: wrap; }
+    .ptag {
+      font-size: 11px; padding: 3px 10px; border-radius: 4px;
+      background: rgba(232,197,245,0.08); color: var(--accent); border: 1px solid rgba(232,197,245,0.12);
+    }
+    .project-link {
+      display: flex; align-items: center; justify-content: center;
+      width: 36px; height: 36px; border-radius: 8px;
+      border: 1px solid var(--border); color: var(--muted);
+      text-decoration: none; font-size: 16px; transition: all 0.2s;
+      flex-shrink: 0; margin-top: 4px;
+    }
+    .project-link:hover { border-color: var(--accent); color: var(--accent); }
+
+    .social-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 14px; }
+    .social-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 12px; padding: 18px 20px;
+      text-decoration: none; display: flex; align-items: center; gap: 12px;
+      transition: all 0.22s; color: var(--text);
+    }
+    .social-card:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.25); }
+    .social-icon { font-size: 20px; }
+    .social-info .social-platform { font-size: 11px; color: var(--muted); font-family: 'Space Mono', monospace; }
+    .social-info .social-handle { font-size: 14px; font-weight: 500; color: var(--text); margin-top: 2px; }
+
+    .contact-box {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 16px; padding: 48px; text-align: center;
+      position: relative; overflow: hidden;
+    }
+    .contact-box::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 50% 0%, rgba(192,132,252,0.1) 0%, transparent 60%);
+    }
+    .contact-box h3 {
+      font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 700;
+      margin-bottom: 12px; position: relative;
+    }
+    .contact-box p { color: var(--muted); margin-bottom: 28px; position: relative; line-height: 1.7; }
+    .contact-links { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; position: relative; }
+
+    footer {
+      border-top: 1px solid var(--border); padding: 28px 0;
+      text-align: center; font-family: 'Space Mono', monospace;
+      font-size: 11px; color: var(--muted); position: relative; z-index: 1;
+    }
+    footer span { color: var(--accent); }
+
+    .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.7s, transform 0.7s; }
+    .reveal.visible { opacity: 1; transform: none; }
+  </style>
+</head>
+<body>
+
+  <div class="blob-wrap">
+    <div class="blob blob1"></div>
+    <div class="blob blob2"></div>
+    <div class="blob blob3"></div>
+  </div>
+
+  <nav>
+    <div class="nav-inner">
+      <span class="nav-logo">CIJ ✦</span>
+      <ul class="nav-links">
+        <li><a href="#about">Tentang</a></li>
+        <li><a href="#projects">Proyek</a></li>
+        <li><a href="#social">Sosial</a></li>
+        <li><a href="#contact">Kontak</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="container">
+      <div class="hero-inner">
+        <p class="hero-tag">✦ Portofolio — Kelas 9 SMP</p>
+        <h1 class="hero-name">Cinta Indah<br/>Januarasty</h1>
+        <p class="hero-sub">
+          Siswi berusia <em>15 tahun</em> yang gemar mendokumentasikan,
+          mengedit video, dan membuat konten visual untuk sekolah —
+          dari poster Instagram hingga film pendek kelas.
+        </p>
+        <div class="hero-cta">
+          <a href="#projects" class="btn btn-primary">Lihat Karya</a>
+          <a href="#contact" class="btn btn-outline">Hubungi Saya</a>
+        </div>
+        <div class="hero-scroll">
+          <span class="scroll-line"></span>
+          SCROLL
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="about">
+    <div class="container">
+      <div class="section-divider"></div>
+      <p class="section-label reveal">Siapa Saya</p>
+      <h2 class="section-title reveal">Tentang Cinta</h2>
+      <div class="about-grid reveal">
+        <div class="about-text">
+          <p>Halo! Nama saya <strong>Cinta Indah Januarasty</strong>, siswi SMP kelas 9 berusia 15 tahun yang sudah aktif berkarya di bidang konten visual sejak kelas 6 SD.</p>
+          <p>Saya mulai perjalanan kreatif saya dengan membuat <strong>poster untuk akun Instagram OSIS dan kelas</strong>. Seiring waktu, minat saya berkembang ke dunia <strong>videografi dan editing video</strong> — mendokumentasikan kegiatan sekolah dari kelas 8 hingga sekarang.</p>
+          <p>Tahun lalu, saya mengerjakan <strong>project tugas IPS</strong> di mana saya yang merekam sekaligus mengedit videonya sendiri. Saya juga aktif mengelola beberapa akun Instagram kelas dan OSIS.</p>
+        </div>
+        <div class="about-stats">
+          <div class="stat-card">
+            <div class="stat-num">4+</div>
+            <div class="stat-label">Tahun berkarya (sejak SD kelas 6)</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num">4</div>
+            <div class="stat-label">Akun Instagram yang dikelola</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num">∞</div>
+            <div class="stat-label">Poster & konten visual dibuat</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="skills">
+    <div class="container">
+      <div class="section-divider"></div>
+      <p class="section-label reveal">Kemampuan</p>
+      <h2 class="section-title reveal">Yang Bisa Saya Lakukan</h2>
+      <div class="skills-grid reveal">
+        <span class="skill-tag"><span class="emoji">🎬</span>Editing Video</span>
+        <span class="skill-tag"><span class="emoji">📸</span>Videografi</span>
+        <span class="skill-tag"><span class="emoji">🎨</span>Desain Poster</span>
+        <span class="skill-tag"><span class="emoji">📱</span>Konten Instagram</span>
+        <span class="skill-tag"><span class="emoji">✏️</span>Dokumentasi Kegiatan</span>
+        <span class="skill-tag"><span class="emoji">🖼️</span>Social Media Management</span>
+        <span class="skill-tag"><span class="emoji">🎞️</span>Storytelling Visual</span>
+        <span class="skill-tag"><span class="emoji">💡</span>Kreativitas</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="projects">
+    <div class="container">
+      <div class="section-divider"></div>
+      <p class="section-label reveal">Karya</p>
+      <h2 class="section-title reveal">Proyek & Pengalaman</h2>
+      <div class="projects-grid">
+
+        <div class="project-card reveal">
+          <div>
+            <p class="project-type">Video · Tugas Sekolah</p>
+            <h3 class="project-title">Project IPS — Timeline Change</h3>
+            <p class="project-desc">Video dokumentasi tugas IPS yang dikerjakan bersama teman-teman — saya yang bertugas merekam (videografi) sekaligus mengedit video hingga hasil akhir. Menampilkan perjalanan perubahan dengan gaya sinematik.</p>
+            <div class="project-tags">
+              <span class="ptag">Videografi</span>
+              <span class="ptag">Editing</span>
+              <span class="ptag">Tugas Sekolah</span>
+            </div>
+          </div>
+          <a href="https://www.instagram.com/timeline.chang3e/reel/DOLJfGnEYeh/" target="_blank" class="project-link" title="Lihat di Instagram">↗</a>
+        </div>
+
+        <div class="project-card reveal">
+          <div>
+            <p class="project-type">Social Media · Instagram</p>
+            <h3 class="project-title">Account — @__classvic__</h3>
+            <p class="project-desc">Mengelola dan membuat konten visual untuk akun Instagram kelas. Termasuk desain poster, feed aesthetics, dan dokumentasi kegiatan kelas sehari-hari.</p>
+            <div class="project-tags">
+              <span class="ptag">Desain Poster</span>
+              <span class="ptag">Instagram</span>
+              <span class="ptag">Konten Kelas</span>
+            </div>
+          </div>
+          <a href="https://www.instagram.com/__classvic__" target="_blank" class="project-link" title="Lihat Instagram">↗</a>
+        </div>
+
+        <div class="project-card reveal">
+          <div>
+            <p class="project-type">Social Media · Instagram</p>
+            <h3 class="project-title">Account  — @6nocounter_</h3>
+            <p class="project-desc">Akun Instagram kelas lainnya yang saya kelola dengan membuat poster-poster kreatif, mulai dari announcement hingga konten estetik kelas.</p>
+            <div class="project-tags">
+              <span class="ptag">Desain Visual</span>
+              <span class="ptag">Feed Design</span>
+              <span class="ptag">Kelas SD</span>
+            </div>
+          </div>
+          <a href="https://www.instagram.com/6nocounter_" target="_blank" class="project-link" title="Lihat Instagram">↗</a>
+        </div>
+
+        <div class="project-card reveal">
+          <div>
+            <p class="project-type">Organisasi · OSIS</p>
+            <h3 class="project-title">Account  — @osis_smpi_arrahman</h3>
+            <p class="project-desc">Membuat konten visual dan poster untuk akun Instagram resmi OSIS SMPI Arrahman. Menyampaikan informasi kegiatan sekolah secara kreatif dan menarik kepada seluruh siswa.</p>
+            <div class="project-tags">
+              <span class="ptag">OSIS</span>
+              <span class="ptag">Poster</span>
+              <span class="ptag">Informasi Sekolah</span>
+            </div>
+          </div>
+          <a href="https://www.instagram.com/osis_smpi_arrahman" target="_blank" class="project-link" title="Lihat Instagram">↗</a>
+        </div>
+
+        <div class="project-card reveal">
+          <div>
+            <p class="project-type">Social Media · Instagram</p>
+            <h3 class="project-title">Account  — @ofc.spiritsofixey</h3>
+            <p class="project-desc">Akun Instagram kelas 9 saat ini. Mendokumentasikan momen-momen kebersamaan dan kegiatan kelas dengan desain yang konsisten.</p>
+            <div class="project-tags">
+              <span class="ptag">Kelas 9 SMP</span>
+              <span class="ptag">Dokumentasi</span>
+              <span class="ptag">Konten Visual</span>
+            </div>
+          </div>
+          <a href="https://www.instagram.com/ofc.spiritsofixey" target="_blank" class="project-link" title="Lihat Instagram">↗</a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section id="social">
+    <div class="container">
+      <div class="section-divider"></div>
+      <p class="section-label reveal">Find Me</p>
+      <h2 class="section-title reveal">Account @januarastt</h2>
+      <div class="social-grid reveal">
+        <a href="https://www.instagram.com/januarastt" target="_blank" class="social-card">
+          <span class="social-icon">📸</span>
+          <div class="social-info">
+            <div class="social-platform">Instagram</div>
+            <div class="social-handle">@januarastt</div>
+          </div>
+        </a>
+        <a href="https://www.tiktok.com/@jepuyupi" target="_blank" class="social-card">
+          <span class="social-icon">🎵</span>
+          <div class="social-info">
+            <div class="social-platform">TikTok</div>
+            <div class="social-handle">@jepuyupi</div>
+          </div>
+        </a>
+        <a href="https://discord.com" target="_blank" class="social-card">
+          <span class="social-icon">🎮</span>
+          <div class="social-info">
+            <div class="social-platform">Discord</div>
+            <div class="social-handle">@jepuyupi</div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="container">
+      <div class="section-divider"></div>
+      <div class="contact-box reveal">
+        <h3>Yuk, Berkolaborasi! 🌸</h3>
+        <p>Butuh seseorang untuk membuat poster, mengedit video, atau mendokumentasikan kegiatan?<br/>Jangan ragu untuk menghubungi saya!</p>
+        <div class="contact-links">
+          <a href="https://www.instagram.com/januarastt" target="_blank" class="btn btn-primary">DM Instagram</a>
+          <a href="https://www.instagram.com/timeline.chang3e/reel/DOLJfGnEYeh/" target="_blank" class="btn btn-outline">Lihat Karya Video</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <p>Dibuat dengan <span>♥</span> oleh <span>Cinta Indah Januarasty</span> · 2025</p>
+    </div>
+  </footer>
+
+  <script>
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach((e, i) => {
+        if (e.isIntersecting) {
+          setTimeout(() => e.target.classList.add('visible'), i * 80);
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    reveals.forEach(r => observer.observe(r));
+  </script>
+</body>
+</html>
